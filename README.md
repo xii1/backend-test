@@ -32,7 +32,7 @@ mvn clean package
 
 On Unix:
 ```bash
-./bin/run
+./bin/stop
 ```
 Or others:
 ```bash

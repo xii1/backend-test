@@ -1,6 +1,6 @@
 package com.array.controllers;
 
-import com.array.controllers.helpers.PathConstants;
+import com.array.controllers.helpers.RestConstants;
 import com.array.controllers.requests.LoginRequest;
 import com.array.controllers.requests.RegisterRequest;
 import com.array.controllers.responses.JwtTokenResponse;
@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * @author XIII
  */
 @RestController
-@RequestMapping(PathConstants.Authentication.PREFIX)
+@RequestMapping(RestConstants.Authentication.PREFIX)
 public class AuthController {
 
     @Autowired
@@ -49,7 +49,7 @@ public class AuthController {
     @Autowired
     private RedisService redisService;
 
-    @PostMapping(PathConstants.Authentication.REGISTER)
+    @PostMapping(RestConstants.Authentication.REGISTER)
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
         if (userService.checkExists(registerRequest.getEmail())) {
             return ResponseEntity.badRequest()
@@ -66,7 +66,7 @@ public class AuthController {
         return ResponseEntity.ok(userService.createUser(user));
     }
 
-    @PostMapping(PathConstants.Authentication.LOGIN)
+    @PostMapping(RestConstants.Authentication.LOGIN)
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             final Authentication authentication = authenticationManager.authenticate(
@@ -80,7 +80,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping(PathConstants.Authentication.LOGOUT)
+    @PostMapping(RestConstants.Authentication.LOGOUT)
     public ResponseEntity<?> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
         final String token = authHeader.split(" ")[1].trim();
         redisService.put(token, "revoked");

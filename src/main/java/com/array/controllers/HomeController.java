@@ -1,18 +1,14 @@
 package com.array.controllers;
 
-import com.array.entity.User;
-import com.array.entity.enums.Role;
+import com.array.controllers.helpers.RestConstants;
 import com.array.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 public class HomeController {
@@ -29,16 +25,15 @@ public class HomeController {
         return "Api Services is running";
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<?> register() {
+    @GetMapping("/admin")
+    @PreAuthorize(RestConstants.Authorization.HAS_AUTHORITY_ADMIN)
+    public ResponseEntity<?> admin() {
+        return ResponseEntity.ok("OK");
+    }
 
-        final User user = new User();
-        user.setEmail("test1@gmail.com");
-        user.setFirstName("Test1");
-        user.setLastName("TestTest");
-        user.setPassword(passwordEncoder.encode("abc"));
-        user.setRoles(Stream.of(Role.CUSTOMER).collect(Collectors.toSet()));
-
-        return ResponseEntity.ok(userService.createUser(user));
+    @GetMapping("/customer")
+    @PreAuthorize(RestConstants.Authorization.HAS_ANY_AUTHORITY_ADMIN_CUSTOMER)
+    public ResponseEntity<?> customer() {
+        return ResponseEntity.ok("OK");
     }
 }

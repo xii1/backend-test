@@ -1,6 +1,6 @@
 package com.array.configure;
 
-import com.array.controllers.helpers.PathConstants;
+import com.array.controllers.helpers.RestConstants;
 import com.array.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,8 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }).and();
 
         http.authorizeRequests()
-                .antMatchers(PathConstants.Authentication.PREFIX + PathConstants.Authentication.REGISTER).permitAll()
-                .antMatchers(PathConstants.Authentication.PREFIX + PathConstants.Authentication.LOGIN).permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers(RestConstants.Authentication.PREFIX + RestConstants.Authentication.REGISTER).permitAll()
+                .antMatchers(RestConstants.Authentication.PREFIX + RestConstants.Authentication.LOGIN).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtTokenRequestFilter, UsernamePasswordAuthenticationFilter.class);

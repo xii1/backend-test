@@ -18,7 +18,7 @@ services:
       - app_net
 
   web-service:
-    image: ghcr.io/xii1/ea-project:$WEB_SERVICE_TAG
+    image: web-service:1.0.0
     ports:
       - "8080"
     restart: always
@@ -26,14 +26,15 @@ services:
       - app_net
     depends_on:
       - postgres-db
-      - redis
+      - redis-server
 
   load-balancer:
     image: nginx:latest
     volumes:
       - ./deploy/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/nginx/certs:/etc/nginx/certs
     ports:
-      - "8080:80"
+      - "443:443"
     networks:
       - app_net
     depends_on:
