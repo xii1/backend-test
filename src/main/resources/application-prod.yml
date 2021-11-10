@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-db:5432/postgres
+    username: postgres
+    password: postgres
+    hikari:
+      maximumPoolSize: 10
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret-base64: and0c2VjcmV0
+  issuer: web-server
+  expiration-in-hours: 24
+
+redis:
+  host: redis-server
+  port: 6379
+  password: redis
+  cache-expiration-in-hours: 24
+
+logging:
+  file:
+    name: ./logs/application.log
