@@ -16,9 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author XIII
@@ -41,8 +39,7 @@ public abstract class BaseEntity {
 
     @JsonIgnore
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date createdDate;
+    protected LocalDateTime createdAt;
 
     @JsonIgnore
     @LastModifiedBy
@@ -50,6 +47,5 @@ public abstract class BaseEntity {
 
     @JsonIgnore
     @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date modifiedDate;
+    protected LocalDateTime modifiedAt;
 }

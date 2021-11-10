@@ -25,10 +25,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class UserRole extends BaseEntity {
 
-    @Column(name = "user_id")
+    @Column(length = 36, name = "user_id")
     private String userId;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(length = 10)
     private Role role;
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,6 +74,10 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             final User user = (User) authentication.getPrincipal();
             final String jwtToken = jwtTokenUtils.generateJwtToken(user);
+
+            user.setLastLoginAt(LocalDateTime.now());
+            userService.updateUser(user.getId(), user);
+
             return ResponseEntity.ok(new JwtTokenResponse(jwtToken, user));
         } catch (BadCredentialsException ex) {
             return ResponseEntity.badRequest()

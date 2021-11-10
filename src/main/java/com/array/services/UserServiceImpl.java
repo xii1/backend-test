@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,19 +26,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserDetails() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (UserDetails) authentication.getPrincipal();
     }
 
     @Override
     public User loadUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
-    }
-
-    @Override
-    public User getCurrentUser() {
-        UserDetails userDetails = loadUserDetails();
-        return loadUserByEmail(userDetails.getUsername());
     }
 
     @Override
@@ -51,27 +46,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        user.setId(null);
         return userRepository.save(user);
     }
 
     @Override
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElse(null);
-    }
-
-    @Override
-    public User updateRole(User user, List<String> roles) {
-        if (roles == null || roles.isEmpty())
-            return user;
-
-        final Set<Role> newRoles = Arrays.stream(Role.class.getEnumConstants())
-                .filter(r -> roles.contains(r.getValue())).collect(Collectors.toSet());
-
-        if (!newRoles.isEmpty()) {
-            user.setRoles(newRoles);
+    public User updateUser(String id, User user) {
+        if (!Objects.isNull(id) && id.equals(user.getId())) {
             return userRepository.save(user);
         }
-
         return user;
     }
 }

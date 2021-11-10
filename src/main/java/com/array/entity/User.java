@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -54,7 +55,10 @@ public class User extends BaseEntity implements UserDetails {
 
     @JsonIgnore
     @Column(nullable = false)
-    private boolean enabled = true;
+    private boolean active = true;
+
+    @JsonIgnore
+    private LocalDateTime lastLoginAt;
 
     @Transient
     @Setter(value = AccessLevel.PRIVATE)
@@ -113,8 +117,9 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return active;
     }
 }
