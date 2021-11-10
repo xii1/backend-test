@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 WS_SCALE=2
-if [ $# -gt 1 ]
+if [ $# -gt 0 ]
   then
     WS_SCALE=$1
 fi
