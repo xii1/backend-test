@@ -12,6 +12,7 @@ import com.array.services.UserService;
 import com.array.common.util.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -51,7 +52,7 @@ public class AuthController {
     @Autowired
     private RedisService redisService;
 
-    @PostMapping(RestConstants.Authentication.REGISTER)
+    @PostMapping(value = RestConstants.Authentication.REGISTER, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
         if (userService.checkExists(registerRequest.getEmail())) {
             return ResponseEntity.badRequest()
@@ -69,7 +70,7 @@ public class AuthController {
         return ResponseEntity.ok().body(ApiResponse.getBuilder().status(200).message("Register successfully").build());
     }
 
-    @PostMapping(RestConstants.Authentication.LOGIN)
+    @PostMapping(value = RestConstants.Authentication.LOGIN, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             final Authentication authentication = authenticationManager.authenticate(
