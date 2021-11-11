@@ -22,7 +22,7 @@ public class HomeController {
     @GetMapping("/")
     @ResponseBody
     public String home() {
-        return "Api Services is running";
+        return "Web Service is running";
     }
 
     @GetMapping("/admin")

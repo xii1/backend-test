@@ -1,4 +1,4 @@
-package com.array.utils;
+package com.array.common.util;
 
 import com.array.entity.User;
 import com.array.entity.enums.Role;

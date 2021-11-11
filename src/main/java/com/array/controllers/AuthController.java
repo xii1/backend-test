@@ -3,12 +3,13 @@ package com.array.controllers;
 import com.array.controllers.helpers.RestConstants;
 import com.array.controllers.requests.LoginRequest;
 import com.array.controllers.requests.RegisterRequest;
+import com.array.controllers.responses.ApiResponse;
 import com.array.controllers.responses.JwtTokenResponse;
 import com.array.entity.User;
 import com.array.entity.enums.Role;
 import com.array.services.RedisService;
 import com.array.services.UserService;
-import com.array.utils.JwtTokenUtils;
+import com.array.common.util.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class AuthController {
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
         if (userService.checkExists(registerRequest.getEmail())) {
             return ResponseEntity.badRequest()
-                    .body("The email is registered");
+                    .body(ApiResponse.getBuilder().status(400).error("The email is registered").build());
         }
 
         final User user = new User();
@@ -63,8 +64,9 @@ public class AuthController {
         user.setLastName(registerRequest.getLastName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRoles(Stream.of(Role.CUSTOMER).collect(Collectors.toSet()));
+        userService.createUser(user);
 
-        return ResponseEntity.ok(userService.createUser(user));
+        return ResponseEntity.ok().body(ApiResponse.getBuilder().status(200).message("Register successfully").build());
     }
 
     @PostMapping(RestConstants.Authentication.LOGIN)
@@ -78,10 +80,11 @@ public class AuthController {
             user.setLastLoginAt(LocalDateTime.now());
             userService.updateUser(user.getId(), user);
 
-            return ResponseEntity.ok(new JwtTokenResponse(jwtToken, user));
+            return ResponseEntity.ok().body(ApiResponse.getBuilder()
+                    .status(200).message("Login successfully").data(new JwtTokenResponse(jwtToken, user)).build());
         } catch (BadCredentialsException ex) {
             return ResponseEntity.badRequest()
-                    .body("The email or password is not correct");
+                    .body(ApiResponse.getBuilder().status(400).error("The email or password is not correct").build());
         }
     }
 
@@ -90,6 +93,6 @@ public class AuthController {
         final String token = authHeader.split(" ")[1].trim();
         redisService.put(token, "revoked");
 
-        return ResponseEntity.ok("The email or password is not correct");
+        return ResponseEntity.ok().body(ApiResponse.getBuilder().status(200).message("Logout successfully").build());
     }
 }

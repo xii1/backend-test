@@ -4,8 +4,8 @@ CREATE TABLE user_roles (
 	user_id VARCHAR(36),
 	created_by VARCHAR(255),
 	created_at TIMESTAMP,
-	modified_by VARCHAR(255),
-    modified_at TIMESTAMP
+	updated_by VARCHAR(255),
+    updated_at TIMESTAMP
 );
 
 ALTER TABLE user_roles ADD CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users (id);

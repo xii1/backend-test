@@ -71,7 +71,7 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private List<UserRole> userRoles = Collections.EMPTY_LIST;;
+    private List<UserRole> userRoles = Collections.emptyList();
 
     public Set<Role> getRoles() {
         return userRoles.stream().map(UserRole::getRole).collect(Collectors.toSet());

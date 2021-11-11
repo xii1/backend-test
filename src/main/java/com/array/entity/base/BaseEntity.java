@@ -43,9 +43,9 @@ public abstract class BaseEntity {
 
     @JsonIgnore
     @LastModifiedBy
-    protected String modifiedBy;
+    protected String updatedBy;
 
     @JsonIgnore
     @LastModifiedDate
-    protected LocalDateTime modifiedAt;
+    protected LocalDateTime updatedAt;
 }

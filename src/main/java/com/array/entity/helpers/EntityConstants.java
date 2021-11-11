@@ -10,11 +10,6 @@ public abstract class EntityConstants {
         public static final String CUSTOMER = "CUSTOMER";
     }
 
-    public abstract static class BaseEntity {
-        public static final String CREATED_BY = "created_by";
-        public static final String UPDATED_BY = "updated_by";
-    }
-
     public abstract static class User {
         public static final String TABLE_NAME = "users";
     }

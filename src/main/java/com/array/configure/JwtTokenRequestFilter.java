@@ -2,7 +2,7 @@ package com.array.configure;
 
 import com.array.repositories.UserRepository;
 import com.array.services.RedisService;
-import com.array.utils.JwtTokenUtils;
+import com.array.common.util.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

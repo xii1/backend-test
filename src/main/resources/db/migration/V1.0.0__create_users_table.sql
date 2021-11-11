@@ -8,6 +8,6 @@ CREATE TABLE users (
 	last_login_at TIMESTAMP,
 	created_by VARCHAR(255),
 	created_at TIMESTAMP,
-	modified_by VARCHAR(255),
-    modified_at TIMESTAMP
+	updated_by VARCHAR(255),
+    updated_at TIMESTAMP
 );
